@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+.bottom-border {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+}
+
+.top-border {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #CCCCCC;
+}
+.border_all {
+	border: 1px solid #CCCCCC;
+}
+
+.left-border {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #CCCCCC;
+}
+
+.right-border {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #CCCCCC;
+}
+
+body {
+	text-align: center;
+	vertical-align: middle;
+	margin: 0px;
+	padding: 0px;
+	
+}
+
+a{
+   color:#333333;
+   text-decoration:underline;
+   cursor: pointer;
+   
+}
+
+th{
+	text-align: center;
+}
+
+.btn-default{
+	font-size:12px;
+}
+.btn {
+	font-size:12px;
+}
+
+.font_size_12{
+	
+	font-size:12px;
+}
+
+.tm_warp{ background:#eee  no-repeat left top;}
+.tm_content { width:180px; height:260px; margin:0px auto; padding:30px 30px; background:rgba(255, 255, 255, 0.6)!important;
+filter:Alpha(opacity=60); background:#fff; /*　使用IE专属滤镜实现IE背景透明*/ }
+.tm_content p{ position:relative;}
+
+.font_bold {
+	font-weight: bold;
+}

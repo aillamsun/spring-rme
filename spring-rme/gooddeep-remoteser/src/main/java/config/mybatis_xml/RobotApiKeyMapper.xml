@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gooddeep.remoteser.p_robot.mapper.RobotApiKeyMapper" >
+  <resultMap id="BaseResultMap" type="RobotApiKey" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="fk_user" property="fkUser" jdbcType="VARCHAR" />
+    <result column="api_key" property="apiKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="usable" property="usable" jdbcType="BIT" />
+  </resultMap>
+
+<select id="selectById" resultMap="BaseResultMap">
+		select * from robot_api_key
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteById">
+		delete from robot_api_key
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+<delete id="deleteBySelect">
+		delete from robot_api_key
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</delete>
+
+	<update id="updateBySelect">
+		 update robot_api_key
+    <include refid="EX_UPDATE"></include>
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</update>
+	<!-- 批量删除 -->
+	<update id="deleteBySomeId">
+		delete from robot_api_key where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+	</update>
+
+
+	<select id="list" resultMap="BaseResultMap">
+		select * from robot_api_key
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			 <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+
+		</trim>
+		order by create_time desc
+	</select>
+
+
+	<select id="findPage" resultMap="BaseResultMap">
+		select * from robot_api_key
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			 <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> 
+		</trim>
+		order by create_time desc
+		limit #{page.recordNo},#{page.pageSize}
+	</select>
+
+	<select id="rowsSize" resultType="int">
+		select count(1) from robot_api_key
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> 
+		</trim>
+	</select>
+	
+  <insert id="insert">
+    insert into robot_api_key (id, fk_user, api_key, 
+      create_time, usable)
+    values (#{id,jdbcType=VARCHAR}, #{fkUser,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{usable,jdbcType=BIT})
+  </insert>
+
+  <update id="updateById">
+    update robot_api_key
+    <include refid="EX_UPDATE"></include>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <sql id="EX_UPDATE">
+  <set >
+      <if test="fkUser != null" >
+        fk_user = #{fkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="apiKey != null" >
+        api_key = #{apiKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usable != null" >
+        usable = #{usable,jdbcType=BIT},
+      </if>
+    </set>
+  </sql>
+
+</mapper>

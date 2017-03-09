@@ -1,0 +1,26 @@
+<configuration>   
+   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">   
+    <!-- encoder 默认配置为PatternLayoutEncoder -->   
+    <encoder>   
+      <pattern>%d{dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>   
+    </encoder>   
+  </appender>   
+   
+
+  
+  <logger name="org.springframework" level="debug" additivity="false">  
+    <appender-ref ref="STDOUT"/>  
+  </logger>   
+   <logger name="com.gooddeep" level="debug" additivity="false">  
+    <appender-ref ref="STDOUT"/>  
+  </logger> 
+  
+   <logger name=" org.elasticsearch" level="debug" additivity="false">  
+    <appender-ref ref="STDOUT"/>  
+  </logger>   
+ 
+    
+  <root level="ERROR">             
+    <appender-ref ref="STDOUT" />   
+  </root>     
+</configuration>  

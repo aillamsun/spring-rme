@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gooddeep.dev</groupId>
+  <artifactId>gooddeep-dev</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <build>
+      <pluginManagement>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+					
+						<id>dubbo-service-model-export</id>
+						<goals>
+							<goal>jar</goal>
+						</goals><!-- 打包的后缀 -->
+						<phase>package</phase><!-- life的多个阶段 ，预打包 -->
+						<configuration>
+						<outputDirectory>target/dubbo</outputDirectory>
+						<classifier>dubbo-service-model-export</classifier><!--dubbo-service-model-export-->
+							<includes><!-- 引入 路径 -->
+								<include>**/model/**</include>
+								<include>**/service/**</include>
+								<include>**/export/**</include>
+							</includes>
+							<excludes>
+							<exclude>**/impl/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>all</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>all</classifier><!-- ***-all.jar -->
+						<!-- 	<excludes>排除
+								<exclude>**/model/**</exclude>
+							</excludes>
+							<includes>引入
+								<include>**/impl/**</include>
+							</includes> -->
+						</configuration>
+					</execution>
+					
+				</executions>
+			</plugin>
+			<!-- 导出包配置 -->
+			<!-- <plugin>  
+                <artifactId>maven-assembly-plugin</artifactId>  
+                <version>2.2-beta-5</version>  
+                <configuration>  
+                    <finalName>app</finalName>  
+                    <attach>false</attach>  
+                    <descriptors>  
+                        <descriptor>assembly.xml</descriptor>  
+                    </descriptors>  
+                </configuration>  
+                <executions>  
+                    <execution>  
+                        <id>make-assembly</id>  
+                        <phase>package</phase>  
+                        <goals>  
+                            <goal>single</goal>  
+                        </goals>  
+                    </execution>  
+                </executions>  
+            </plugin>   -->
+		</plugins>
+	</pluginManagement>
+  </build>
+  <modules>
+   <module>dev-core</module>
+  	<module>dev-redis</module>
+  	<module>dev-mongodb</module>
+  	<module>dev-elasticsearch</module>
+  </modules>
+
+</project>

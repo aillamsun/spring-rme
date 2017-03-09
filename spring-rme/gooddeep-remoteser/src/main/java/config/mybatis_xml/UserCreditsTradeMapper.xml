@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gooddeep.remoteser.p_member.mapper.UserCreditsTradeMapper" >
+<resultMap id="BaseResultMap" type="UserCreditsTrade" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="fk_user" property="fkUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="reson" property="reson" jdbcType="VARCHAR" />
+    <result column="gd_type" property="gdType" jdbcType="INTEGER" />
+    <result column="trade_credits" property="tradeCredits" jdbcType="REAL" />
+    <result column="usable" property="usable" jdbcType="BIT" />
+    <result column="from_platform" property="fromPlatform" jdbcType="VARCHAR" />
+    <result column="pre_credits" property="preCredits" jdbcType="REAL" />
+    <result column="now_credits" property="nowCredits" jdbcType="REAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="trade_type" property="tradeType" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectById" resultMap="BaseResultMap">
+		select * from user_credits_trade
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteById">
+		delete from user_credits_trade
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+<delete id="deleteBySelect">
+		delete from user_credits_trade
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</delete>
+
+	<update id="updateBySelect">
+		 update user_credits_trade
+    <include refid="EX_UPDATE"></include>
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</update>
+	<!-- 批量删除 -->
+	<update id="deleteBySomeId">
+		delete from user_credits_trade where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+	</update>
+
+
+	<select id="list" resultMap="BaseResultMap">
+		select * from user_credits_trade
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			 <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+
+		</trim>
+		order by create_time desc
+	</select>
+
+
+	<select id="findPage" resultMap="BaseResultMap">
+		select * from user_credits_trade
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			 <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> 
+		</trim>
+		order by create_time desc
+		limit #{page.recordNo},#{page.pageSize}
+	</select>
+
+	<select id="rowsSize" resultType="int">
+		select count(1) from user_credits_trade
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> 
+		</trim>
+	</select>
+ 
+  <insert id="insert" >
+  insert into user_credits_trade (id, fk_user, create_time, 
+      reson, gd_type, trade_credits, 
+      usable, from_platform, pre_credits, 
+      now_credits, remark)
+    values (#{id,jdbcType=VARCHAR}, #{fkUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{reson,jdbcType=VARCHAR}, #{gdType,jdbcType=INTEGER}, #{tradeCredits,jdbcType=REAL}, 
+      #{usable,jdbcType=BIT}, #{fromPlatform,jdbcType=VARCHAR}, #{preCredits,jdbcType=REAL}, 
+      #{nowCredits,jdbcType=REAL}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateById"  >
+    update user_credits_trade
+   <include refid="EX_UPDATE"></include>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <sql id="EX_UPDATE">
+   <set>
+      <if test="fkUser != null">
+        fk_user = #{fkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reson != null">
+        reson = #{reson,jdbcType=VARCHAR},
+      </if>
+      <if test="gdType != null">
+        gd_type = #{gdType,jdbcType=INTEGER},
+      </if>
+      <if test="tradeCredits != null">
+        trade_credits = #{tradeCredits,jdbcType=REAL},
+      </if>
+      <if test="usable != null">
+        usable = #{usable,jdbcType=BIT},
+      </if>
+      <if test="fromPlatform != null">
+        from_platform = #{fromPlatform,jdbcType=VARCHAR},
+      </if>
+      <if test="preCredits != null">
+        pre_credits = #{preCredits,jdbcType=REAL},
+      </if>
+      <if test="nowCredits != null">
+        now_credits = #{nowCredits,jdbcType=REAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+  </sql>
+
+</mapper>

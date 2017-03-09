@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	<!-- 指明满足“/*”的页面，将被“/WEB-INF/views/decorators/decorator.html”所装饰 -->
+	<mapping path="**/**" decorator="/WEB-INF/decorators/decorator.jsp" />
+	<mapping path="**/p_member/*.shtml" decorator="/WEB-INF/decorators/decorator_user.jsp" />
+	<mapping path="**/p_credits/*.shtml" decorator="/WEB-INF/decorators/decorator_user.jsp" />
+	<mapping path="**/p_robot/*.shtml" decorator="/WEB-INF/decorators/decorator_robot.jsp" />
+	<mapping path="**/p_data/recommend/*.shtml" decorator="/WEB-INF/decorators/decorator_data.jsp" />
+	<mapping path="**/p_data/reportClass/*.shtml" decorator="/WEB-INF/decorators/decorator_data.jsp" />
+	<mapping path="**/p_data/data/*.shtml" decorator="/WEB-INF/decorators/decorator_data.jsp" />
+	<mapping path="**/p_data/buyRecord/*.shtml" decorator="/WEB-INF/decorators/decorator_data.jsp" />
+	<!-- 指明满足“/exclude.jsp*”的页面，将被排除，不被装饰 -->
+	<mapping path="**/nsajax/**" exclue="true"></mapping><!-- ajax -->
+	<mapping path="**/robot_replys.htm" exclue="true"></mapping><!--自动回复接口 -->
+	<!-- <mapping path="**/login.shtm" exclue="true" /> <mapping path="**/showLinkNode.shtm" 
+		exclue="true" /> -->
+	<!-- <content-processor> <tag-rule-bundle class="com.hlzt.wx.util.MyTagRuleBundle" 
+		/> </content-processor> -->
+</sitemesh>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gooddeep.remoteser.p_robot.mapper.RobotReportSysWordsMapper" >
+  <resultMap id="BaseResultMap" type="RobotReportSysWords" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="fk_user" property="fkUser" jdbcType="VARCHAR" />
+    <result column="word" property="word" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="report_status" property="reportStatus" jdbcType="INTEGER" />
+    <result column="request_remark" property="requestRemark" jdbcType="VARCHAR" />
+    <result column="response_remark" property="responseRemark" jdbcType="VARCHAR" />
+    <result column="usable" property="usable" jdbcType="BIT" />
+  </resultMap>
+
+<select id="selectById" resultMap="BaseResultMap">
+		select * from robot_report_sys_words
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteById">
+		delete from robot_report_sys_words
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteBySelect">
+		delete from robot_report_sys_words
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</delete>
+
+	<update id="updateBySelect">
+		 update robot_report_sys_words
+    <include refid="EX_UPDATE"></include>
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</update>
+
+	<!-- 批量删除 -->
+	<update id="deleteBySomeId">
+		delete from robot_report_sys_words where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+	</update>
+
+
+	<select id="list" resultMap="BaseResultMap">
+		select * from robot_report_sys_words
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			 <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+
+		</trim>
+		order by create_time desc
+	</select>
+
+
+	<select id="findPage" resultMap="BaseResultMap">
+		select * from robot_report_sys_words
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			 <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> 
+		</trim>
+		order by create_time desc
+		limit #{page.recordNo},#{page.pageSize}
+	</select>
+
+	<select id="rowsSize" resultType="int">
+		select count(1) from robot_report_sys_words
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> 
+		</trim>
+	</select>
+  <insert id="insert">
+    insert into robot_report_sys_words (id, fk_user, word, 
+      create_time, report_status, request_remark, 
+      response_remark, usable)
+    values (#{id,jdbcType=VARCHAR}, #{fkUser,jdbcType=VARCHAR}, #{word,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{reportStatus,jdbcType=INTEGER}, #{requestRemark,jdbcType=VARCHAR}, 
+      #{responseRemark,jdbcType=VARCHAR}, #{usable,jdbcType=BIT})
+  </insert>
+ 
+  <update id="updateById">
+    update robot_report_sys_words
+    <include refid="EX_UPDATE"></include>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+<sql id="EX_UPDATE">
+<set >
+      <if test="fkUser != null" >
+        fk_user = #{fkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="word != null" >
+        word = #{word,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportStatus != null" >
+        report_status = #{reportStatus,jdbcType=INTEGER},
+      </if>
+      <if test="requestRemark != null" >
+        request_remark = #{requestRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="responseRemark != null" >
+        response_remark = #{responseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="usable != null" >
+        usable = #{usable,jdbcType=BIT},
+      </if>
+    </set>
+</sql>
+</mapper>

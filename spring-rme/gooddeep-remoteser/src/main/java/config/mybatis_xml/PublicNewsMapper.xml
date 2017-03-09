@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gooddeep.remoteser.p_public.mapper.PublicNewsMapper" >
+  <resultMap id="BaseResultMap" type="PublicNews" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="gd_type" property="gdType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="affix_urls" property="affixUrls" jdbcType="VARCHAR" />
+    <result column="usable" property="usable" jdbcType="BIT" />
+    <result column="news_type" property="newsType" jdbcType="INTEGER" />
+     <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+ 
+ <select id="selectById" resultMap="BaseResultMap">
+		select * from public_news
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteById">
+		delete from public_news
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+<delete id="deleteBySelect">
+		delete from public_news
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</delete>
+
+	<update id="updateBySelect">
+		 update public_news
+    <include refid="EX_UPDATE"></include>
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="map.id!=null">
+				AND id = #{map.id}
+			</if>
+			<if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>
+		</trim>
+	</update>
+	<!-- 批量删除 -->
+	<update id="deleteBySomeId">
+		delete from public_news where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<select id="list" resultMap="BaseResultMap">
+		select * from public_news
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<!--  <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if> -->
+
+		</trim>
+		order by create_time desc
+	</select>
+
+
+	<select id="findPage" resultMap="BaseResultMap">
+		select * from public_news
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<!--  <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>  -->
+		</trim>
+		order by create_time desc
+		limit #{page.recordNo},#{page.pageSize}
+	</select>
+
+	<select id="rowsSize" resultType="int">
+		select count(1) from public_news
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<!-- <if test="map.fkUser!=null">
+				AND fk_user = #{map.fkUser}
+			</if>  -->
+		</trim>
+	</select>
+	
+  <insert id="insert">
+    insert into public_news (id, title, gd_type, 
+      create_time, create_user, affix_urls, 
+      usable, news_type, content
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{gdType,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{affixUrls,jdbcType=VARCHAR}, 
+      #{usable,jdbcType=BIT}, #{newsType,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  
+  <update id="updateById"  >
+    update public_news
+   <include refid="EX_UPDATE"></include>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<sql id="EX_UPDATE">
+ <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="gdType != null" >
+        gd_type = #{gdType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="affixUrls != null" >
+        affix_urls = #{affixUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="usable != null" >
+        usable = #{usable,jdbcType=BIT},
+      </if>
+      <if test="newsType != null" >
+        news_type = #{newsType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+</sql>
+</mapper>
